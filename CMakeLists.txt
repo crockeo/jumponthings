@@ -7,7 +7,8 @@ set(   LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/build")
 set(CMAKE_CXX_FLAGS "-Wall -std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Setting up the executable.
-set(SOURCES src/player.cpp
+set(SOURCES src/texablerender.cpp
+            src/player.cpp
             src/game.cpp
             src/main.cpp)
 

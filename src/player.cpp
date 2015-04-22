@@ -31,11 +31,15 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
     }
 
     if (glfwGetKey(window, GLFW_KEY_A)) {
+        if (dx > 0)
+            dx -= dt * dx * decelSpeed;
         dx -= accelSpeed * dt;
         mx = true;
     }
 
     if (glfwGetKey(window, GLFW_KEY_D)) {
+        if (dx < 0)
+            dx -= dt * dx * decelSpeed;
         dx += accelSpeed * dt;
         mx = true;
     }
@@ -46,5 +50,5 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
         dy -= dt * dy * decelSpeed;
 
     clibgame::CPosition& position = dynamic_cast<clibgame::CPosition&>(getOwner().getComponent("clibgame_position"));
-    position.translate(dx, dy);
+    position.translate(dx * dt, dy * dt);
 }

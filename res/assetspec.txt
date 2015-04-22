@@ -1,0 +1,2 @@
+texture playersheet res/platformer-pack/Spritesheets/spritesheet_players.png
+shader testshader res/test
