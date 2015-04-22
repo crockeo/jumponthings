@@ -9,6 +9,10 @@
 // Code //
 
 // The default game.
-struct Game : public clibgame::ECP { };
+class Game : public clibgame::ECP {
+public:
+    // Constructing a new game.
+    Game();
+};
 
 #endif

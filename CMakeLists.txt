@@ -4,10 +4,13 @@ project(jumponthings)
 # Setting up the project.
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/build")
 set(   LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/build")
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-Wall -std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Setting up the executable.
-set(SOURCES src/main.cpp)
+set(SOURCES src/player.cpp
+            src/game.cpp
+            src/main.cpp)
+
 add_executable(jumponthings ${SOURCES})
 
 # Adding the library.
