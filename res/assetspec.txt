@@ -1,2 +1,3 @@
 texture playersheet res/platformer-pack/Spritesheets/spritesheet_players.png
+animation_f player res/platformer-pack/playersheet.png 4 2 0.1 1 4 6
 shader testshader res/test
