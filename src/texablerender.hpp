@@ -22,7 +22,7 @@ class TexableRender : public clibgame::Component,
 private:
     const TRType trType;
     const std::string texablePath, shaderPath, eventPath;
-    const float x, y, w, h;
+    float x, y, w, h;
 
     clibgame::Texable* texable;
     clibgame::Shader* shader;
@@ -33,7 +33,7 @@ private:
     std::vector<GLfloat> generateCoordinates(float, float, float, float) const;
 
     // Filling the coordinates with the information as described by the indices.
-    void fillCoordinates(float, float, float, float);
+    void fillCoordinates() const;
 
 public:
     // Creating a new TexableRender given a TRType, a name of a texable

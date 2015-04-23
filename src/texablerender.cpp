@@ -29,7 +29,7 @@ std::vector<GLfloat> TexableRender::generateCoordinates(float x, float y, float 
 }
 
 // Filling the coordinates with the information as described by the indices.
-void TexableRender::fillCoordinates(float x, float y, float w, float h) {
+void TexableRender::fillCoordinates() const {
     std::vector<GLfloat> coords = generateCoordinates(x, y, w, h);
 
     GLfloat aCoords[coords.size()];
@@ -95,7 +95,6 @@ void TexableRender::init(GLFWwindow* window, const clibgame::ECP& ecp, const cli
     // Setting up the VAO & VBO
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
-    fillCoordinates(x, y, w, h);
 
     // Filling the EBO.
     glGenBuffers(1, &ebo);
@@ -106,6 +105,8 @@ void TexableRender::init(GLFWwindow* window, const clibgame::ECP& ecp, const cli
 
 // Rendering this TexableRender.
 void TexableRender::render() const {
+    fillCoordinates();
+
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
@@ -130,6 +131,10 @@ void TexableRender::render() const {
 void TexableRender::alert(const clibgame::Event&& e) {
     if (e.getEventType() == eventPath) {
         const clibgame::CPositionEvent&& pos = dynamic_cast<const clibgame::CPositionEvent&&>(e);
-        fillCoordinates(pos.x, pos.y, pos.w, pos.h);
+
+        x = pos.x;
+        y = pos.y;
+        w = pos.w;
+        h = pos.h;
     }
 }
