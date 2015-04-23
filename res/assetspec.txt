@@ -1,3 +1,7 @@
 texture playersheet res/platformer-pack/Spritesheets/spritesheet_players.png
-animation_f player res/platformer-pack/playersheet.png 4 2 0.1 1 4 6
+
+texture player_jumping res/platformer-pack/PNG/Players/128x256/Blue/alienBlue_jump.png
+texture player_standing res/platformer-pack/PNG/Players/128x256/Blue/alienBlue_stand.png
+animation_f player_running res/platformer-pack/playersheet.png 4 2 0.1 1 4 6
+
 shader testshader res/test

@@ -10,14 +10,15 @@
 
 class PlayerController : public clibgame::Component {
 private:
-    const float accelSpeed, decelSpeed;
+    const float accelSpeed,
+                decelSpeed;
 
     float  x,  y;
     float dx, dy;
 
 public:
     // Constructing a new PlayerController.
-    PlayerController(float, float,
+    PlayerController(float, float, float,
                      float, float);
 
     // Getting the name of the PlayerController component.

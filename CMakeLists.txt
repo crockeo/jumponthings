@@ -8,6 +8,7 @@ set(CMAKE_CXX_FLAGS "-Wall -std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Setting up the executable.
 set(SOURCES src/texablerender.cpp
+            src/texableset.cpp
             src/player.cpp
             src/game.cpp
             src/main.cpp)
