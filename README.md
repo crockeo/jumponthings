@@ -1,8 +1,25 @@
 # jumponthings
 
+### About
+
+This is an attempt to flesh out my game library, clibgame, by writing an actual
+(albeit small) videogame using it.
+
 ### Installation
 
-**WILL COME LATER**
+Requires [clibgame](http://github.com/crockeo/clibgame) and CMake version
+`>= 3.1`.
+
+To install and run:
+
+```bash
+$ git clone http://github.com/crockeo/jumponthings
+$ cd jumponthings
+$ cmake .
+$ make
+$ ./build/jumponthings
+
+```
 
 ### Licensing
 
