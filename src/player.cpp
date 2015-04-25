@@ -22,6 +22,7 @@ std::string PlayerController::getName() const { return "playerController"; }
 // Updating this component.
 void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, float dt) {
     clibgame::CPosition& position = dynamic_cast<clibgame::CPosition&>(getOwner().getComponent("clibgame_position"));
+    TexableSet& ts = dynamic_cast<TexableSet&>(getOwner().getComponent("texableSet"));
     bool mx = false;
 
     if (glfwGetKey(window, GLFW_KEY_A)) {
@@ -29,6 +30,7 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
             dx -= dx * decelSpeed * dt;
         dx -= accelSpeed * dt;
         mx = true;
+        ts.setFlip(true, false);
     }
 
     if (glfwGetKey(window, GLFW_KEY_D)) {
@@ -36,10 +38,11 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
             dx -= dx * decelSpeed * dt;
         dx += accelSpeed * dt;
         mx = true;
+        ts.setFlip(false, false);
     }
 
     if (position.getY() > 0)
-        dy -= accelSpeed * dt * 2;
+        dy -= accelSpeed * dt * 1.3;
     else if (position.getY() < 0) {
         dy = 0;
         position.setY(0);
@@ -47,7 +50,7 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
 
     if (glfwGetKey(window, GLFW_KEY_SPACE)) {
         if (position.getY() == 0)
-            dy = 600;
+            dy = 800;
     }
 
     std::string animation;

@@ -6,7 +6,40 @@
 // Generating the set of coordinates for this TexableRender given certain
 // specifications of x, y, width, and height.
 std::vector<GLfloat> TexableRender::generateCoordinates(float x, float y, float w, float h) const {
-    std::vector<GLfloat> texCoords = texable->getTextureCoords();
+    std::vector<GLfloat> tempTexCoords = texable->getTextureCoords();
+    std::vector<GLfloat> texCoords;
+
+    if (flipx || flipy) {
+        float x, y, ax, ay;
+
+        if (flipx && flipy) {
+            x  = tempTexCoords.at(2);
+            y  = tempTexCoords.at(5);
+            ax = tempTexCoords.at(0);
+            ay = tempTexCoords.at(1);
+        } else if (flipx) {
+            x  = tempTexCoords.at(2);
+            y  = tempTexCoords.at(1);
+            ax = tempTexCoords.at(0);
+            ay = tempTexCoords.at(5);
+        } else {
+            x  = tempTexCoords.at(0);
+            y  = tempTexCoords.at(5);
+            ax = tempTexCoords.at(2);
+            ay = tempTexCoords.at(1);
+        }
+
+        std::vector<GLfloat> evenTemperTexCoords {
+            x , y ,
+            ax, y ,
+            ax, ay,
+            x , ay
+        };
+
+        texCoords = evenTemperTexCoords;
+    } else
+        texCoords = tempTexCoords;
+
     std::vector<GLfloat> realCoords = {
         x    , y    ,
         x + w, y    ,
@@ -48,8 +81,15 @@ TexableRender::TexableRender(TRType trType, std::string texablePath, std::string
         trType(trType),
         texablePath(texablePath),
         shaderPath(shaderPath),
-        eventPath(eventPath),
-        x(x), y(y), w(w), h(h) {
+        eventPath(eventPath) {
+    this->x = x;
+    this->y = y;
+    this->w = w;
+    this->h = h;
+
+    flipx = false;
+    flipy = false;
+
     if (eventPath != "")
         clibgame::ListenerManager::instance().registerListener(this, eventPath);
 }
@@ -69,6 +109,14 @@ TexableRender::~TexableRender() {
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
+}
+
+// Attempting to flip the X or Y axis. If done, the engine will assume that
+// the texture coordinates are in the shape of a rectangle in the order:
+// bottom left, bottom right, top right, top left.
+void TexableRender::setFlip(bool flipx, bool flipy) {
+    this->flipx = flipx;
+    this->flipy = flipy;
 }
 
 // Getting the name of this component.

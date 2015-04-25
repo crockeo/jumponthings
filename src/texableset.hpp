@@ -39,6 +39,7 @@ private:
     std::unordered_map<std::string, TexableRender*> texables;
     TexableRender* current;
     std::string listenStr;
+    bool flipx, flipy;
     float x, y, w, h;
     bool loaded;
 
@@ -64,6 +65,11 @@ public:
 
     // Setting the current render.
     void setCurrent(std::string) throw(std::runtime_error);
+
+    // Attempting to flip the X or Y axis. If done, the engine will assume that
+    // the texture coordinates are in the shape of a rectangle in the order:
+    // bottom left, bottom right, top right, top left.
+    void setFlip(bool, bool);
 
     // Getting the name of this component.
     virtual std::string getName() const override;

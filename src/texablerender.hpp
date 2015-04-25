@@ -23,6 +23,7 @@ private:
     const TRType trType;
     const std::string texablePath, shaderPath, eventPath;
     float x, y, w, h;
+    bool flipx, flipy;
 
     clibgame::Texable* texable;
     clibgame::Shader* shader;
@@ -53,6 +54,11 @@ public:
     // Removing the copy constructor & assignment operator.
     TexableRender(const TexableRender&) = delete;
     TexableRender& operator=(const TexableRender&) = delete;
+
+    // Attempting to flip the X or Y axis. If done, the engine will assume that
+    // the texture coordinates are in the shape of a rectangle in the order:
+    // bottom left, bottom right, top right, top left.
+    void setFlip(bool, bool);
 
     // Getting the name of this component.
     virtual std::string getName() const override;

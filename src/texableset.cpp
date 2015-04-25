@@ -24,6 +24,9 @@ TexableSet::TexableSet(std::string initialRender, std::string eventName,
     current = nullptr;
     loaded = false;
 
+    flipx = false;
+    flipy = false;
+
     this->x = x;
     this->y = y;
     this->w = w;
@@ -56,6 +59,15 @@ void TexableSet::setCurrent(std::string name) throw(std::runtime_error) {
         throw std::runtime_error("No such texable exists in this TextureSet: " + name);
 
     current = texables.at(name);
+    current->setFlip(flipx, flipy);
+}
+
+// Attempting to flip the X or Y axis. If done, the engine will assume that
+// the texture coordinates are in the shape of a rectangle in the order:
+// bottom left, bottom right, top right, top left.
+void TexableSet::setFlip(bool flipx, bool flipy) {
+    this->flipx = flipx;
+    this->flipy = flipy;
 }
 
 // Getting the name of this component.
