@@ -2,6 +2,7 @@
 
 //////////////
 // Includes //
+#include "collidable.hpp"
 #include "texableset.hpp"
 
 //////////
@@ -14,6 +15,8 @@ PlayerController::PlayerController(float accelSpeed, float decelSpeed, float min
         decelSpeed(decelSpeed) {
     this->x = x;
     this->y = y;
+
+    clibgame::ListenerManager::instance().registerListener(this, "collidable_event_player");
 }
 
 // Getting the name of the PlayerController component.
@@ -63,4 +66,31 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
 
     clibgame::ListenerManager::instance().alert(TexableSetEvent(getOwner().getUID(), animation));
     position.translate(dx * dt, dy * dt);
+}
+
+// Alerting this component of events.
+void PlayerController::alert(const clibgame::Event&& e) {
+    if (e.getEventType() == "collidable_event_player") {
+        clibgame::CPosition& position = dynamic_cast<clibgame::CPosition&>(getOwner().getComponent("clibgame_position"));
+        const CollidableEvent&& ce = dynamic_cast<const CollidableEvent&&>(e);
+
+        switch (ce.collision) {
+        case COL_TOP:
+            dy = 0;
+            position.setY(ce.rect.bottom());
+            break;
+        case COL_BOTTOM:
+            dy = 0;
+            position.setY(ce.rect.top());
+            break;
+        case COL_LEFT:
+            dx *= -0.3f;
+            position.setX(ce.rect.right());
+            break;
+        case COL_RIGHT:
+            dx *= -0.3f;
+            position.setX(ce.rect.left());
+            break;
+        }
+    }
 }

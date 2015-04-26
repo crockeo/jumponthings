@@ -8,7 +8,8 @@
 //////////
 // Code //
 
-class PlayerController : public clibgame::Component {
+class PlayerController : public clibgame::Component,
+                         public clibgame::Listener {
 private:
     const float accelSpeed,
                 decelSpeed;
@@ -26,6 +27,9 @@ public:
 
     // Updating this component.
     void update(GLFWwindow*, const clibgame::ECP&, float);
+
+    // Alerting this component of events.
+    virtual void alert(const clibgame::Event&&) override;
 };
 
 #endif
