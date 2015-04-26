@@ -12,6 +12,10 @@ Rectangle::Rectangle(float x, float y, float w, float h) :
         x(x), y(y),
         w(w), h(h){ }
 
+// An empty Rectangle.
+Rectangle::Rectangle() :
+        Rectangle(0, 0, 0, 0) { }
+
 // Getting different sides of a rectangle.
 float Rectangle::top()     const { return y + h; }
 float Rectangle::bottom()  const { return y;     }

@@ -12,10 +12,13 @@ enum Collision {
 
 // A const representation of a Rectangle.
 struct Rectangle {
-    const float x, y, w, h;
+    float x, y, w, h;
 
     // Constructing a new Rectangle.
     Rectangle(float, float, float, float);
+
+    // An empty Rectangle.
+    Rectangle();
 
     // Getting different sides of a rectangle.
     float top()    const;
