@@ -25,15 +25,14 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
     TexableSet& ts = dynamic_cast<TexableSet&>(getOwner().getComponent("texableSet"));
     bool mx = false;
 
-    if (glfwGetKey(window, GLFW_KEY_A)) {
+    if (glfwGetKey(window, GLFW_KEY_A) && glfwGetKey(window, GLFW_KEY_D)) {
+    } else if (glfwGetKey(window, GLFW_KEY_A)) {
         if (dx > 0)
             dx -= dx * decelSpeed * dt;
         dx -= accelSpeed * dt;
         mx = true;
         ts.setFlip(true, false);
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D)) {
+    } else if (glfwGetKey(window, GLFW_KEY_D)) {
         if (dx < 0)
             dx -= dx * decelSpeed * dt;
         dx += accelSpeed * dt;
