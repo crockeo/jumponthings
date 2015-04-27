@@ -10,7 +10,7 @@
 // Constructing a new Rectangle.
 Rectangle::Rectangle(float x, float y, float w, float h) :
         x(x), y(y),
-        w(w), h(h){ }
+        w(w), h(h) { }
 
 // An empty Rectangle.
 Rectangle::Rectangle() :
@@ -42,12 +42,12 @@ Collision Rectangle::collisionDirection(const Rectangle& r) {
         float dx = distanceX(r),
               dy = distanceY(r);
 
-        if (dx <= dy) {
-            if (left() <= r.right())
+        if (r.h >= r.w && dx > dy) {
+            if (centerX() >= r.centerX())
                 return COL_LEFT;
             return COL_RIGHT;
         } else {
-            if (top() >= r.bottom())
+            if (centerY() <= r.centerY())
                 return COL_TOP;
             return COL_BOTTOM;
         }

@@ -29,4 +29,12 @@ Game::Game() {
     addEntity("rect");
     getEntity("rect").addComponent(new TexableRender(TR_TEXTURE, "dirt", "testshader",
                                                      0, -10, 50, 490));
+
+    addEntity("rect2");
+    getEntity("rect2").addComponent(new TexableRender(TR_TEXTURE, "dirt", "testshader",
+                                                      300, 0, 128, 128));
+
+    addEntity("background");
+    getEntity("background").addComponent(new TexableRender(TR_TEXTURE, "blue_desert", "testshader",
+                                                           0, 0, 1028, 1028));
 }

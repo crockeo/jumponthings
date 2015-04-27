@@ -77,7 +77,7 @@ void PlayerController::alert(const clibgame::Event&& e) {
         switch (ce.collision) {
         case COL_TOP:
             dy = 0;
-            position.setY(ce.rect.bottom());
+            position.setY(ce.rect.bottom() - position.getHeight());
             break;
         case COL_BOTTOM:
             dy = 0;
@@ -89,7 +89,7 @@ void PlayerController::alert(const clibgame::Event&& e) {
             break;
         case COL_RIGHT:
             dx *= -0.3f;
-            position.setX(ce.rect.left());
+            position.setX(ce.rect.left() - position.getWidth());
             break;
         }
     }

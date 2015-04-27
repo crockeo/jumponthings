@@ -21,7 +21,8 @@ std::string CollidableEvent::getEventType() const { return eventName; };
 // form of a rectangle.
 std::vector<Rectangle> Collidable::getCollidables(const clibgame::ECP& ecp) const throw(std::runtime_error) {
     std::vector<Rectangle> rs {
-        Rectangle(0, -10, 50, 490)
+        Rectangle(0, -10, 50, 490),
+        Rectangle(300, 0, 128, 128)
     };
     
     return rs;
