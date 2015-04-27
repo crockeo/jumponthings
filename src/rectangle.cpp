@@ -24,7 +24,7 @@ float Rectangle::right()   const { return x + w; }
 
 // Finding the center of the Rectangle in the different axes.
 float Rectangle::centerX() const { return x + (w / 2.f); }
-float Rectangle::centerY() const { return y + (y / 2.f); }
+float Rectangle::centerY() const { return y + (h / 2.f); }
 
 // Finding the distance between this rectangle's center and another's.
 float Rectangle::distanceX(const Rectangle& r) const {
@@ -38,18 +38,18 @@ float Rectangle::distanceY(const Rectangle& r) const {
 // Finding the direction of a collision - or COL_NONE if no collision
 // occurs.
 Collision Rectangle::collisionDirection(const Rectangle& r) {
-    if (top() > r.bottom() && bottom() < r.top() && left() < r.right() && right() > r.left()) {
-        float dx = distanceX(r),
-              dy = distanceY(r);
+    float dx = distanceX(r) - (w / 2.f) - (r.w / 2.f),
+          dy = distanceY(r) - (h / 2.f) - (r.h / 2.f);
 
-        if (r.h >= r.w && dx > dy) {
-            if (centerX() >= r.centerX())
-                return COL_LEFT;
-            return COL_RIGHT;
-        } else {
-            if (centerY() <= r.centerY())
+    if (dx < 0 && dy < 0) {
+        if (dy >= dx || fabs(dx - dy) < 5) {
+            if (centerY() < r.centerY())
                 return COL_TOP;
             return COL_BOTTOM;
+        } else {
+            if (centerX() > r.centerX())
+                return COL_LEFT;
+            return COL_RIGHT;
         }
     }
 

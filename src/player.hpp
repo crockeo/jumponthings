@@ -16,6 +16,7 @@ private:
 
     float  x,  y;
     float dx, dy;
+    bool canjump;
 
 public:
     // Constructing a new PlayerController.

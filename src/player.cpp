@@ -16,6 +16,8 @@ PlayerController::PlayerController(float accelSpeed, float decelSpeed, float min
     this->x = x;
     this->y = y;
 
+    canjump = true;
+
     clibgame::ListenerManager::instance().registerListener(this, "collidable_event_player");
 }
 
@@ -51,8 +53,10 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
     }
 
     if (glfwGetKey(window, GLFW_KEY_SPACE)) {
-        if (position.getY() == 0)
+        if (position.getY() == 0 || canjump) {
             dy = 800;
+            canjump = false;
+        }
     }
 
     std::string animation;
@@ -61,7 +65,7 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
         animation = "player_standing";
     } else
         animation = "player_running";
-    if (dy != 0)
+    if (!canjump && dy != 0)
         animation = "player_jumping";
 
     clibgame::ListenerManager::instance().alert(TexableSetEvent(getOwner().getUID(), animation));
@@ -80,6 +84,7 @@ void PlayerController::alert(const clibgame::Event&& e) {
             position.setY(ce.rect.bottom() - position.getHeight());
             break;
         case COL_BOTTOM:
+            canjump = true;
             dy = 0;
             position.setY(ce.rect.top());
             break;
@@ -90,6 +95,9 @@ void PlayerController::alert(const clibgame::Event&& e) {
         case COL_RIGHT:
             dx *= -0.3f;
             position.setX(ce.rect.left() - position.getWidth());
+            break;
+        case COL_NONE:
+            canjump = false;
             break;
         }
     }
