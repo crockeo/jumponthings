@@ -10,6 +10,27 @@
 //////////
 // Code //
 
+// Registering a static object at a given position with a render.
+void registerBlock(Game* game,
+                   std::string entityName,
+                   TRType type, std::string texableName, std::string shaderName,
+                   float x, float y, float w, float h) {
+    game->addEntity(entityName);
+    game->getEntity(entityName).addComponent(new TexableRender(type, texableName, shaderName, x, y, w, h));
+}
+
+// Registering a static object at a given position with a render, a position,
+// and a collision box.
+void registerBlockCollidable(Game* game,
+                             std::string entityName,
+                             TRType type, std::string texableName, std::string shaderName,
+                             float x, float y, float w, float h) {
+    registerBlock(game, entityName, type, texableName, shaderName, x, y, w, h);
+
+    game->getEntity(entityName).addComponent(new clibgame::CPosition(x, y, w, h));
+    game->getEntity(entityName).addComponent(new Collidable());
+}
+
 // Constructing a new game.
 Game::Game() {
     addEntity("player");
@@ -26,15 +47,20 @@ Game::Game() {
 
     getEntity("player").addComponent(ts);
 
-    addEntity("rect");
-    getEntity("rect").addComponent(new TexableRender(TR_TEXTURE, "dirt", "testshader",
-                                                     0, -10, 50, 490));
+ 
+    // Registering some extra stuff in the game world.
+    registerBlockCollidable(this,
+                            "rect",
+                            TR_TEXTURE, "dirt", "testshader",
+                            0, -10, 50, 490);
 
-    addEntity("rect2");
-    getEntity("rect2").addComponent(new TexableRender(TR_TEXTURE, "dirt", "testshader",
-                                                      300, 0, 128, 128));
+    registerBlockCollidable(this,
+                            "rect2",
+                            TR_TEXTURE, "dirt", "testshader",
+                            300, 0, 128, 128);
 
-    addEntity("background");
-    getEntity("background").addComponent(new TexableRender(TR_TEXTURE, "blue_desert", "testshader",
-                                                           0, 0, 1028, 1028));
+    registerBlock(this,
+                  "background",
+                  TR_TEXTURE, "blue_desert", "testshader",
+                  0, 0, 1028, 1028);
 }
