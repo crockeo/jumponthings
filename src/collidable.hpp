@@ -35,7 +35,14 @@ private:
     // Getting the set of rectangles that represent revelant collidables in the
     // form of a rectangle.
     std::vector<Rectangle> getCollidables(const clibgame::ECP&) const throw(std::runtime_error);
+
+    const bool doCollision;
+
 public:
+    // Creating a collidable with the option of whether or not it should check
+    // for collisions itself.
+    Collidable(bool);
+
     // Creating a new collidable.
     Collidable();
 
