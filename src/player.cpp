@@ -54,7 +54,7 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
 
     if (glfwGetKey(window, GLFW_KEY_SPACE)) {
         if (position.getY() == 0 || canjump) {
-            dy = 800;
+            dy = 400;
             canjump = false;
         }
     }
