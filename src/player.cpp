@@ -17,8 +17,6 @@ PlayerController::PlayerController(float accelSpeed, float decelSpeed, float min
     this->y = y;
 
     canjump = true;
-
-    clibgame::ListenerManager::instance().registerListener(this, "collidable_event_player");
 }
 
 // Getting the name of the PlayerController component.
@@ -26,10 +24,11 @@ std::string PlayerController::getName() const { return "playerController"; }
 
 // Updating this component.
 void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, float dt) {
-    clibgame::CPosition& position = dynamic_cast<clibgame::CPosition&>(getOwner().getComponent("clibgame_position"));
+    clibgame::CPosition& pos = dynamic_cast<clibgame::CPosition&>(getOwner().getComponent("clibgame_position"));
     TexableSet& ts = dynamic_cast<TexableSet&>(getOwner().getComponent("texableSet"));
     bool mx = false;
 
+    // Dealing with horizontal movement.
     if (glfwGetKey(window, GLFW_KEY_A) && glfwGetKey(window, GLFW_KEY_D)) {
     } else if (glfwGetKey(window, GLFW_KEY_A)) {
         if (dx > 0)
@@ -45,15 +44,52 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
         ts.setFlip(false, false);
     }
 
+    // Dealing with vertical movement.
     dy -= accelSpeed * dt * 1.3;
-
     if (glfwGetKey(window, GLFW_KEY_SPACE)) {
-        if (position.getY() == 0 || canjump) {
+        if (pos.getY() == 0 || canjump) {
             dy = 400;
             canjump = false;
         }
     }
 
+    // Performing collision.
+    std::vector<Rectangle> others = getCollisionRectangles(getOwner(), ecp);
+    Rectangle self = getCollisionRectangle(pos);
+
+    bool anyCollision = false;
+    for (Rectangle other: others) {
+        switch (self.collisionDirection(other)) {
+        case COL_TOP:
+            dy = 0;
+            pos.setY(other.bottom() - pos.getHeight());
+            anyCollision = true;
+            break;
+        case COL_BOTTOM:
+            canjump = true;
+            dy = 0;
+            pos.setY(other.top());
+            anyCollision = true;
+            break;
+        case COL_LEFT:
+            dx *= -0.3f;
+            pos.setX(other.right());
+            anyCollision = true;
+            break;
+        case COL_RIGHT:
+            dx *= -0.3f;
+            pos.setX(other.left() - pos.getWidth());
+            anyCollision = true;
+            break;
+        case COL_NONE:
+            break;
+        }
+    }
+
+    // Applying movement.
+    pos.translate(dx * dt, dy * dt);
+
+    // Applying some animation to the world.
     std::string animation;
     if (!mx) {
         dx -= dx * decelSpeed * dt;
@@ -64,36 +100,4 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
         animation = "player_jumping";
 
     clibgame::ListenerManager::instance().alert(TexableSetEvent(getOwner().getUID(), animation));
-    position.translate(dx * dt, dy * dt);
-}
-
-// Alerting this component of events.
-void PlayerController::alert(const clibgame::Event&& e) {
-    if (e.getEventType() == "collidable_event_player") {
-        clibgame::CPosition& position = dynamic_cast<clibgame::CPosition&>(getOwner().getComponent("clibgame_position"));
-        const CollidableEvent&& ce = dynamic_cast<const CollidableEvent&&>(e);
-
-        switch (ce.collision) {
-        case COL_TOP:
-            dy = 0;
-            position.setY(ce.rect.bottom() - position.getHeight());
-            break;
-        case COL_BOTTOM:
-            canjump = true;
-            dy = 0;
-            position.setY(ce.rect.top());
-            break;
-        case COL_LEFT:
-            dx *= -0.3f;
-            position.setX(ce.rect.right());
-            break;
-        case COL_RIGHT:
-            dx *= -0.3f;
-            position.setX(ce.rect.left() - position.getWidth());
-            break;
-        case COL_NONE:
-            canjump = false;
-            break;
-        }
-    }
 }

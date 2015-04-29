@@ -7,6 +7,31 @@
 //////////
 // Code //
 
+// Getting the collision rectangle from a built-in position component.
+Rectangle getCollisionRectangle(const clibgame::CPosition& pos) {
+    return Rectangle(pos.getX(), pos.getY(),
+                     pos.getWidth(), pos.getHeight());
+}
+
+// Getting the set of collision rectangles from the ECP.
+std::vector<Rectangle> getCollisionRectangles(const clibgame::Entity& caller, const clibgame::ECP& ecp) {
+    std::vector<Rectangle> rs;
+    for (auto it = ecp.begin(); it != ecp.end(); it++) {
+        const clibgame::Entity& e = ecp.getEntity(std::get<0>(*it));
+        if (e.getUID() == caller.getUID())
+            continue;
+
+        if (e.hasComponent("clibgame_position")) {
+            const clibgame::CPosition& pos = dynamic_cast<const clibgame::CPosition&>(e.getComponent("clibgame_position"));
+
+            if (pos.shouldDoCollide())
+                rs.push_back(getCollisionRectangle(pos));
+        }
+    }
+
+    return rs;
+}
+
 // Creating a new CollidableEvent about a
 CollidableEvent::CollidableEvent(std::string ownerName, Collision collision, Rectangle rect) :
         eventName("collidable_event_" + ownerName),

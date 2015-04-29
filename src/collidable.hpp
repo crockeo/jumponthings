@@ -11,6 +11,12 @@
 //////////
 // Code //
 
+// Getting the collision rectangle from a built-in position component.
+Rectangle getCollisionRectangle(const clibgame::CPosition&);
+
+// Getting the set of collision rectangles from the ECP.
+std::vector<Rectangle> getCollisionRectangles(const clibgame::Entity&, const clibgame::ECP&);
+
 // An event meant to propagate the information regaring a 
 class CollidableEvent : public clibgame::Event {
 private:

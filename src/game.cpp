@@ -27,14 +27,13 @@ void registerBlockCollidable(Game* game,
                              float x, float y, float w, float h) {
     registerBlock(game, entityName, type, texableName, shaderName, x, y, w, h);
 
-    game->getEntity(entityName).addComponent(new clibgame::CPosition(x, y, w, h));
-    game->getEntity(entityName).addComponent(new Collidable());
+    game->getEntity(entityName).addComponent(new clibgame::CPosition(x, y, w, h, true));
 }
 
 // Constructing a new game.
 Game::Game() {
     addEntity("player");
-    getEntity("player").addComponent(new clibgame::CPosition(64, 64, 64, 128));
+    getEntity("player").addComponent(new clibgame::CPosition(64, 64, 64, 128, true));
     getEntity("player").addComponent(new PlayerController(800, 12, 5, 0, 0));
     getEntity("player").addComponent(new Collidable());
 
