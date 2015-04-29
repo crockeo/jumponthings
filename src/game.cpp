@@ -5,6 +5,7 @@
 #include "texablerender.hpp"
 #include "collidable.hpp"
 #include "texableset.hpp"
+#include "tilemap.hpp"
 #include "player.hpp"
 
 //////////
@@ -46,37 +47,9 @@ Game::Game() {
 
     getEntity("player").addComponent(ts);
 
+    loadTileMap("tilemap", *this, "res/tilemap.txt");
  
     // Registering some extra stuff in the game world.
-    registerBlockCollidable(this,
-                            "rect",
-                            TR_TEXTURE, "dirt", "testshader",
-                            0, 0, 32, 64);
-
-    registerBlockCollidable(this,
-                            "rect2",
-                            TR_TEXTURE, "dirt", "testshader",
-                            300, 0, 64, 64);
-
-    registerBlockCollidable(this,
-                            "littler1",
-                            TR_TEXTURE, "dirt", "testshader",
-                            50, 0, 32, 32);
-
-    registerBlockCollidable(this,
-                            "littler2",
-                            TR_TEXTURE, "dirt", "testshader",
-                            114, 0, 32, 32);
-
-    registerBlockCollidable(this,
-                            "littler3",
-                            TR_TEXTURE, "dirt", "testshader",
-                            178, 0, 32, 32);
-
-    registerBlockCollidable(this,
-                            "littler4",
-                            TR_TEXTURE, "dirt", "testshader",
-                            210, 32, 32, 32);
 
     registerBlock(this,
                   "background",

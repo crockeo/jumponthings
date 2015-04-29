@@ -66,10 +66,12 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
             anyCollision = true;
             break;
         case COL_BOTTOM:
-            canjump = true;
-            dy = 0;
-            pos.setY(other.top());
-            anyCollision = true;
+            if (dy < 0) {
+                canjump = true;
+                dy = 0;
+                pos.setY(other.top());
+                anyCollision = true;
+            }
             break;
         case COL_LEFT:
             dx *= -0.3f;

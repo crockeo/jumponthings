@@ -1,0 +1,7 @@
+texture dirt testshader 0 0 32 64
+texture dirt testshader 300 0 64 64
+texture dirt testshader 50 0 32 32
+texture dirt testshader 114 0 32 32
+texture dirt testshader 178 0 32 32
+texture dirt testshader 210 32 32 32
+texture dirt testshader 100 100 32 32

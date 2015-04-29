@@ -11,6 +11,7 @@ set(SOURCES src/texablerender.cpp
             src/collidable.cpp
             src/texableset.cpp
             src/rectangle.cpp
+            src/tilemap.cpp
             src/player.cpp
             src/game.cpp
             src/main.cpp)
