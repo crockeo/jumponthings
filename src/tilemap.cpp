@@ -47,10 +47,9 @@ void loadTileMap(std::string entityName, clibgame::ECP& ecp, std::istream& in) t
     CollidableSet* cs = new CollidableSet();
 
     TRType renderType;
-    std::string renderTypeStr,
-                texablePath, shaderPath;
-    float x, y,
-          w, h;
+    std::string renderTypeStr, texablePath, shaderPath;
+    float x, y, w, h;
+    bool doCollide;
 
     while (!in.eof()) {
         in >> renderTypeStr;
@@ -60,6 +59,7 @@ void loadTileMap(std::string entityName, clibgame::ECP& ecp, std::istream& in) t
         in >> y;
         in >> w;
         in >> h;
+        in >> doCollide;
 
              if (renderTypeStr == "animation"  ) renderType = TR_ANIMATION;
         else if (renderTypeStr == "texture"    ) renderType = TR_TEXTURE;
@@ -68,7 +68,8 @@ void loadTileMap(std::string entityName, clibgame::ECP& ecp, std::istream& in) t
         bor->addRender(new TexableRender(renderType, texablePath, shaderPath,
                                          x, y, w, h));
 
-        cs->addCollision(Rectangle(x, y, w, h));
+        if (doCollide)
+            cs->addCollision(Rectangle(x, y, w, h));
     }
 
     ecp.addEntity(entityName);
