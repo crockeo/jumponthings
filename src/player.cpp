@@ -45,12 +45,7 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
         ts.setFlip(false, false);
     }
 
-    if (position.getY() > 0)
-        dy -= accelSpeed * dt * 1.3;
-    else if (position.getY() < 0) {
-        dy = 0;
-        position.setY(0);
-    }
+    dy -= accelSpeed * dt * 1.3;
 
     if (glfwGetKey(window, GLFW_KEY_SPACE)) {
         if (position.getY() == 0 || canjump) {

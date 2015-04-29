@@ -52,12 +52,12 @@ Game::Game() {
     registerBlockCollidable(this,
                             "rect",
                             TR_TEXTURE, "dirt", "testshader",
-                            0, -10, 50, 490);
+                            0, 0, 32, 64);
 
     registerBlockCollidable(this,
                             "rect2",
                             TR_TEXTURE, "dirt", "testshader",
-                            300, 0, 128, 128);
+                            300, 0, 64, 64);
 
     registerBlockCollidable(this,
                             "littler1",
@@ -67,22 +67,17 @@ Game::Game() {
     registerBlockCollidable(this,
                             "littler2",
                             TR_TEXTURE, "dirt", "testshader",
-                            82, 0, 32, 32);
+                            114, 0, 32, 32);
 
     registerBlockCollidable(this,
                             "littler3",
                             TR_TEXTURE, "dirt", "testshader",
-                            114, 0, 32, 32);
+                            178, 0, 32, 32);
 
     registerBlockCollidable(this,
                             "littler4",
                             TR_TEXTURE, "dirt", "testshader",
-                            146, 0, 32, 32);
-
-    registerBlockCollidable(this,
-                            "littler5",
-                            TR_TEXTURE, "dirt", "testshader",
-                            178, 0, 32, 32);
+                            210, 32, 32, 32);
 
     registerBlock(this,
                   "background",
