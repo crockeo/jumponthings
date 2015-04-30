@@ -8,3 +8,11 @@ texture dirt res/platformer-pack/PNG/Ground/Dirt/dirt.png
 texture blue_desert res/platformer-pack/PNG/Backgrounds/blue_desert.png
 
 shader testshader res/test
+
+texture grass res/platformer-pack/PNG/Ground/Grass/grass.png
+texture grass_left res/platformer-pack/PNG/Ground/Grass/grassLeft.png
+texture grass_right res/platformer-pack/PNG/Ground/Grass/grassRight.png
+texture grass_mid res/platformer-pack/PNG/Ground/Grass/grassMid.png
+
+texture grass_cliff_left res/platformer-pack/PNG/Ground/Grass/grassCliff_left.png
+texture grass_cliff_right res/platformer-pack/PNG/Ground/Grass/grassCliff_right.png

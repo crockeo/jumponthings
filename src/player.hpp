@@ -10,17 +10,16 @@
 
 class PlayerController : public clibgame::Component {
 private:
-    const float accelSpeed,
-                decelSpeed;
-
     float  x,  y;
     float dx, dy;
     bool canjump;
 
+    // Rescaling a value depending on if you're in the air or not.
+    float jumpSpeed(float) const;
+
 public:
     // Constructing a new PlayerController.
-    PlayerController(float, float, float,
-                     float, float);
+    PlayerController(float, float);
 
     // Getting the name of the PlayerController component.
     std::string getName() const;

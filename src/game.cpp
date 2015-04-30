@@ -16,10 +16,10 @@ void registerPlayer(Game* game, float x, float y, float w, float h) {
     game->addEntity("player");
 
     game->getEntity("player").addComponent(new clibgame::CPosition(x, y, w, h, true));
-    game->getEntity("player").addComponent(new PlayerController(800, 12, 5, 0, 0));
+    game->getEntity("player").addComponent(new PlayerController(0, 0));
 
     TexableSet* ts = new TexableSet("player_standing", "clibgame_position_player",
-                                    64, 64, 64, 128);
+                                    x, y, w, h);
 
     ts->addRender("player_standing", TR_TEXTURE, "player_standing", "testshader");
     ts->addRender("player_running", TR_ANIMATION, "player_running", "testshader");
@@ -30,6 +30,6 @@ void registerPlayer(Game* game, float x, float y, float w, float h) {
 
 // Constructing a new game.
 Game::Game() {
-    loadTileMap("tilemap", *this, "res/tilemap.txt");
     registerPlayer(this, 64, 64, 64, 128);
+    loadTileMap("tilemap", *this, "res/tilemap.txt");
 }

@@ -8,11 +8,20 @@
 //////////
 // Code //
 
+const float PLAYER_ACCEL_SPEED       = 1400;
+const float PLAYER_DECEL_SPEED       = 12;
+const float PLAYER_GRAVITY_SPEED     = 800;
+const float PLAYER_JUMP_SPEED        = 400;
+const float PLAYER_MAX_SPEED         = 800;
+const float PLAYER_JUMP_SPEED_FACTOR = 2;
+
+// Rescaling a value depending on if you're in the air or not.
+float PlayerController::jumpSpeed(float value) const {
+    return canjump ? value : value / PLAYER_JUMP_SPEED_FACTOR;
+}
+
 // Constructing a new PlayerController.
-PlayerController::PlayerController(float accelSpeed, float decelSpeed, float minSpeed,
-                                   float x, float y) :
-        accelSpeed(accelSpeed),
-        decelSpeed(decelSpeed) {
+PlayerController::PlayerController(float x, float y) {
     this->x = x;
     this->y = y;
 
@@ -32,23 +41,29 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
     if (glfwGetKey(window, GLFW_KEY_A) && glfwGetKey(window, GLFW_KEY_D)) {
     } else if (glfwGetKey(window, GLFW_KEY_A)) {
         if (dx > 0)
-            dx -= dx * decelSpeed * dt;
-        dx -= accelSpeed * dt;
+            dx -= dx * jumpSpeed(PLAYER_DECEL_SPEED) * dt;
+        dx -= jumpSpeed(PLAYER_ACCEL_SPEED) * dt;
+        if (dx < -PLAYER_MAX_SPEED)
+            dx = -PLAYER_MAX_SPEED;
+
         mx = true;
         ts.setFlip(true, false);
     } else if (glfwGetKey(window, GLFW_KEY_D)) {
         if (dx < 0)
-            dx -= dx * decelSpeed * dt;
-        dx += accelSpeed * dt;
+            dx -= dx * jumpSpeed(PLAYER_DECEL_SPEED) * dt;
+        dx += jumpSpeed(PLAYER_ACCEL_SPEED) * dt;
+        if (dx > PLAYER_MAX_SPEED)
+            dx = PLAYER_MAX_SPEED;
+
         mx = true;
         ts.setFlip(false, false);
     }
 
     // Dealing with vertical movement.
-    dy -= accelSpeed * dt * 1.3;
+    dy -= PLAYER_GRAVITY_SPEED * dt * 1.3;
     if (glfwGetKey(window, GLFW_KEY_SPACE)) {
         if (pos.getY() == 0 || canjump) {
-            dy = 400;
+            dy = PLAYER_JUMP_SPEED;
             canjump = false;
         }
     }
@@ -61,9 +76,11 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
     for (Rectangle other: others) {
         switch (self.collisionDirection(other)) {
         case COL_TOP:
-            dy = 0;
-            pos.setY(other.bottom() - pos.getHeight());
-            anyCollision = true;
+            if (dy > 0) {
+                dy = 0;
+                pos.setY(other.bottom() - pos.getHeight());
+                anyCollision = true;
+            }
             break;
         case COL_BOTTOM:
             if (dy < 0) {
@@ -94,7 +111,7 @@ void PlayerController::update(GLFWwindow* window, const clibgame::ECP& ecp, floa
     // Applying some animation to the world.
     std::string animation;
     if (!mx) {
-        dx -= dx * decelSpeed * dt;
+        dx -= dx * jumpSpeed(PLAYER_DECEL_SPEED) * dt;
         animation = "player_standing";
     } else
         animation = "player_running";
