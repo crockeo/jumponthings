@@ -2,6 +2,8 @@
 
 //////////////
 // Includes //
+#include <parsical.hpp>
+
 #include "collidable.hpp"
 
 //////////
@@ -40,6 +42,8 @@ void BunchOfRenders::render() const {
 
 // Loading a given tile map into the ECP using an ifstream.
 void loadTileMap(std::string entityName, clibgame::ECP& ecp, std::istream& in) throw(std::runtime_error) {
+    using namespace parsical::str;
+
     if (ecp.hasEntity(entityName))
         throw std::runtime_error("An entity by the name \"" + entityName + "\" already exists.");
 
@@ -51,25 +55,47 @@ void loadTileMap(std::string entityName, clibgame::ECP& ecp, std::istream& in) t
     float x, y, w, h;
     bool doCollide;
 
-    while (!in.eof()) {
-        in >> renderTypeStr;
-        in >> texablePath;
-        in >> shaderPath;
-        in >> x;
-        in >> y;
-        in >> w;
-        in >> h;
-        in >> doCollide;
+    parsical::IStreamParser p(in);
+    while (!p.eof()) {
+        try {
+            consumeWhitespace(p);
 
-             if (renderTypeStr == "animation"  ) renderType = TR_ANIMATION;
-        else if (renderTypeStr == "texture"    ) renderType = TR_TEXTURE;
-        else if (renderTypeStr == "spritesheet") renderType = TR_SPRITESHEET;
+            renderTypeStr = parseString(p);
+            consumeWhitespace(p);
 
-        bor->addRender(new TexableRender(renderType, texablePath, shaderPath,
-                                         x, y, w, h));
+            texablePath = parseString(p);
+            consumeWhitespace(p);
 
-        if (doCollide)
-            cs->addCollision(Rectangle(x, y, w, h));
+            shaderPath = parseString(p);
+            consumeWhitespace(p);
+
+            x = parseFloat(p);
+            consumeWhitespace(p);
+
+            y = parseFloat(p);
+            consumeWhitespace(p);
+
+            w = parseFloat(p);
+            consumeWhitespace(p);
+
+            h = parseFloat(p);
+            consumeWhitespace(p);
+
+            doCollide = parseBool(p);
+            consumeWhitespace(p);
+
+                 if (renderTypeStr == "animation"  ) renderType = TR_ANIMATION;
+            else if (renderTypeStr == "texture"    ) renderType = TR_TEXTURE;
+            else if (renderTypeStr == "spritesheet") renderType = TR_SPRITESHEET;
+
+            bor->addRender(new TexableRender(renderType, texablePath, shaderPath,
+                                            x, y, w, h));
+
+            if (doCollide)
+                cs->addCollision(Rectangle(x, y, w, h));
+        } catch (parsical::ParseError& e) {
+            throw std::runtime_error(("Failed to load tile map: " + std::string(e.what())).c_str());
+        }
     }
 
     ecp.addEntity(entityName);

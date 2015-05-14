@@ -1,18 +1,18 @@
-texture blue_desert testshader 0 0 1028 1028 0
+texture blue_desert testshader 0 0 1028 1028 false
 
-texture grass_left        testshader 0 0 32 32 1
-texture grass_mid         testshader 32 0 32 32 1
-texture grass_mid         testshader 64 0 32 32 1
-texture grass_mid         testshader 96 0 32 32 1
-texture grass_mid         testshader 128 0 32 32 1
-texture grass_mid         testshader 160 0 32 32 1
-texture grass_mid         testshader 192 0 32 32 1
-texture grass_cliff_right testshader 224 0 32 32 1
+texture grass_left        testshader 0 0 32 32 true
+texture grass_mid         testshader 32 0 32 32 true
+texture grass_mid         testshader 64 0 32 32 true
+texture grass_mid         testshader 96 0 32 32 true
+texture grass_mid         testshader 128 0 32 32 true
+texture grass_mid         testshader 160 0 32 32 true
+texture grass_mid         testshader 192 0 32 32 true
+texture grass_cliff_right testshader 224 0 32 32 true
 
-texture grass_cliff_left  testshader 300 100 32 32 1
-texture grass_mid         testshader 332 100 32 32 1
-texture grass_cliff_right testshader 364 100 32 32 1
+texture grass_cliff_left  testshader 300 100 32 32 true
+texture grass_mid         testshader 332 100 32 32 true
+texture grass_cliff_right testshader 364 100 32 32 true
 
-texture grass_cliff_left  testshader 300 300 32 32 1
-texture grass_mid         testshader 332 300 32 32 1
-texture grass_cliff_right testshader 364 300 32 32 1
+texture grass_cliff_left  testshader 300 300 32 32 true
+texture grass_mid         testshader 332 300 32 32 true
+texture grass_cliff_right testshader 364 300 32 32 true
