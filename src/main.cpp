@@ -19,8 +19,8 @@ int main(int argc, char** argv) {
     cfg.rps = 120;
 
     // Starting the game.
-    Game game;
     try {
+        Game game;
         clibgame::startEngine(cfg, game, "res/assetspec.txt");
     } catch (std::runtime_error& e) {
         std::cout << "Failed to start game: " << e.what() << std::endl;
