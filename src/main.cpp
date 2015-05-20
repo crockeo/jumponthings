@@ -4,6 +4,7 @@
 #include <exception>
 #include <iostream>
 
+#include "renderer.hpp"
 #include "game.hpp"
 
 //////////
@@ -21,7 +22,8 @@ int main(int argc, char** argv) {
     // Starting the game.
     try {
         Game game;
-        clibgame::startEngine(cfg, game, "res/assetspec.txt");
+        Renderer renderer;
+        clibgame::startEngine(cfg, game, renderer, "res/assetspec.txt");
     } catch (std::runtime_error& e) {
         std::cout << "Failed to start game: " << e.what() << std::endl;
         return 1;

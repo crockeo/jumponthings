@@ -78,7 +78,7 @@ public:
     virtual void init(GLFWwindow*, const clibgame::ECP&, const clibgame::Res&) override;
 
     // Rendering the current TexableRender.
-    virtual void render() const override;
+    virtual void render(clibgame::Renderer&) const override;
 
     // Alerting this module to any events.
     virtual void alert(const clibgame::Event&&) override;

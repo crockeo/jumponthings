@@ -152,7 +152,7 @@ void TexableRender::init(GLFWwindow* window, const clibgame::ECP& ecp, const cli
 }
 
 // Rendering this TexableRender.
-void TexableRender::render() const {
+void TexableRender::doRender() const {
     fillCoordinates();
 
     glBindVertexArray(this->vao);
@@ -173,6 +173,12 @@ void TexableRender::render() const {
     glUniform1i(glGetUniformLocation(this->shader->getShaderID(), "in_tex"), 0);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+// Rendering this TexableRender.
+void TexableRender::render(clibgame::Renderer& cRenderer) const {
+    Renderer& renderer = dynamic_cast<Renderer&>(cRenderer);
+    renderer.addRender(0, this);
 }
 
 // Being alerted to a given event.

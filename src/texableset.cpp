@@ -93,9 +93,9 @@ void TexableSet::init(GLFWwindow* window, const clibgame::ECP& ecp, const clibga
 }
 
 // Rendering the current TexableRender.
-void TexableSet::render() const {
+void TexableSet::render(clibgame::Renderer& cRenderer) const {
     if (current != nullptr)
-        current->render();
+        current->render(cRenderer);
 }
 
 // Alerting this module to any events.

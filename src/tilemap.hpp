@@ -36,7 +36,7 @@ public:
     virtual void init(GLFWwindow*, const clibgame::ECP&, const clibgame::Res&) override;
 
     // Rendering this BunchOfRenders.
-    virtual void render() const override;
+    virtual void render(clibgame::Renderer&) const override;
 };
 
 // Loading a given tile map into the ECP using an ifstream.

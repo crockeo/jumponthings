@@ -35,9 +35,9 @@ void BunchOfRenders::init(GLFWwindow* window, const clibgame::ECP& ecp, const cl
 }
 
 // Rendering this BunchOfRenders.
-void BunchOfRenders::render() const {
+void BunchOfRenders::render(clibgame::Renderer& cRenderer) const {
     for (TexableRender* tr: renders)
-        tr->render();
+        tr->render(cRenderer);
 }
 
 // Loading a given tile map into the ECP using an ifstream.
