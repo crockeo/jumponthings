@@ -20,8 +20,7 @@ enum TRType {
 
 // TexableRender is a renderer for any given texable.
 class TexableRender : public clibgame::Component,
-                      public clibgame::Listener,
-                      public Renderable {
+                      public clibgame::Listener {
 private:
     const TRType trType;
     const std::string texablePath, shaderPath, eventPath;
@@ -68,9 +67,6 @@ public:
 
     // Initializing this TexableRender.
     virtual void init(GLFWwindow*, const clibgame::ECP&, const clibgame::Res&) override;
-
-    // Rendering this TexableRender.
-    virtual void doRender() const override;
 
     // Rendering this TexableRender.
     virtual void render(clibgame::Renderer&) const override;

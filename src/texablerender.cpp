@@ -152,33 +152,16 @@ void TexableRender::init(GLFWwindow* window, const clibgame::ECP& ecp, const cli
 }
 
 // Rendering this TexableRender.
-void TexableRender::doRender() const {
-    fillCoordinates();
-
-    glBindVertexArray(this->vao);
-    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
-
-    glUseProgram(this->shader->getShaderID());
-
-    // Initializing the coordinates.
-    GLint coordAttrib = glGetAttribLocation(this->shader->getShaderID(), "in_coordinates");
-
-    glEnableVertexAttribArray(coordAttrib);
-    glVertexAttribPointer(coordAttrib, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-    // Initializing the texture.
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, this->texable->getTextureID());
-    glUniform1i(glGetUniformLocation(this->shader->getShaderID(), "in_tex"), 0);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-
-// Rendering this TexableRender.
 void TexableRender::render(clibgame::Renderer& cRenderer) const {
     Renderer& renderer = dynamic_cast<Renderer&>(cRenderer);
-    renderer.addRender(0, this);
+    Render render;
+
+    render.coordinates = generateCoordinates(x, y, w, h);
+    render.order = STANDARD_ORDER;
+    render.texable = texable;
+    render.shader = shader;
+
+    renderer.addRender(0, render);
 }
 
 // Being alerted to a given event.
