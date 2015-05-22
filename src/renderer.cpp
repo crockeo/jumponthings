@@ -1,7 +1,15 @@
 #include "renderer.hpp"
 
+//////////////
+// Includes //
+#include <iostream>
+
+#include "config.hpp"
+
 //////////
 // Code //
+
+int callCount = 0;
 
 // Performing a single Render.
 void Renderer::render(Render render) const {
@@ -36,6 +44,8 @@ void Renderer::render(Render render) const {
     glUniform1i(glGetUniformLocation(render.shader->getShaderID(), "in_tex"), 0);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    callCount++;
 }
 
 // Rendering a single layer.
@@ -45,7 +55,10 @@ void Renderer::renderLayer(int layer) const {
 }
 
 // Creating a new, empty renderer.
-Renderer::Renderer() { clear(); }
+Renderer::Renderer() {
+    callCount = 0;
+    clear();
+}
 
 // Clearing out the renderer.
 Renderer::~Renderer() {
@@ -77,6 +90,11 @@ void Renderer::render() const {
 
 // Clearing the previous render.
 void Renderer::clear() {
+    if (callCount != 0 && DEBUG) {
+        std::cout << "Render call count: " << callCount << std::endl;
+        callCount = 0;
+    }
+
     renders.clear();
     for (int i = 0; i < Renderer::LAYERS; i++)
         renders.push_back(std::vector<Render>());
