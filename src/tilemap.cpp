@@ -87,6 +87,8 @@ void loadTileMap(std::string entityName, clibgame::ECP& ecp, std::istream& in) t
                  if (renderTypeStr == "animation"  ) renderType = TR_ANIMATION;
             else if (renderTypeStr == "texture"    ) renderType = TR_TEXTURE;
             else if (renderTypeStr == "spritesheet") renderType = TR_SPRITESHEET;
+            else
+                throw parsical::ParseError("Invalid render type.");
 
             bor->addRender(new TexableRender(renderType, texablePath, shaderPath,
                                             x, y, w, h));
